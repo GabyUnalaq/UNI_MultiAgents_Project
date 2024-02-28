@@ -1,5 +1,5 @@
-# SMA_Project
-This project implements an _ with the purpose of _. It uses _ agents. It is implemented using Jade (Java).
+# SMA proiect
+This project implements a system that takes messages from a graphical interface using 5 BDI agents. It is implemented using Jade (Java).
 
 # Team
  - Dumitru Diana-Maria
