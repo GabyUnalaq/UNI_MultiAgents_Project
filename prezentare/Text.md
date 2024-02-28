@@ -7,6 +7,7 @@
 3. Descrierea solutiei si a alegerii acesteia + bibliografie (daca insiratia e din alta parte (va fi))
 4. Programul
 5. Bibliografie
+
 (MAX 7 PAGINI)
 
 # Titlu:
