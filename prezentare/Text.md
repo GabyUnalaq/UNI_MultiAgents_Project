@@ -13,7 +13,7 @@
 # Titlu:
 -
 
-# Tema de proiect A:
+# Tema de proiect A: (9)
 Realizati o aplicatie JADE care sa creeze 5 agenti care sa primeasca mesaje de la o interfata grafica. Exemplificati folosind agenti BDI.
 
 # Tema de proiect B:
