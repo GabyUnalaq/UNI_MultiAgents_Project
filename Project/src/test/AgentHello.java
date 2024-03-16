@@ -1,6 +1,7 @@
 package test;
 
 import jade.core.Agent;
+import static jade.util.Logger.println;
 
 /**
  * A simple agent that display a text
@@ -29,8 +30,8 @@ public class AgentHello extends Agent {
     protected void setup() {
         String texteHello = "Hello everybody and especially you !";
 
-        System.out.printf("From agent " + getLocalName() + " : " + texteHello);
-        System.out.printf("My address is " + getAID());
+        println("From agent " + getLocalName() + " : " + texteHello);
+        println("My address is " + getAID());
         //agent asks to be removed from the platform
         doDelete();
     }

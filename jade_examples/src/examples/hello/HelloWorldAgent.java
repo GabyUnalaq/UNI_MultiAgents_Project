@@ -32,8 +32,12 @@ import jade.core.Agent;
    @author Giovanni Caire - TILAB
  */
 public class HelloWorldAgent extends Agent {
+    public static void main(String[] args) {
+        // Command line arguments: -gui HelloWorldAgent:examples.hello.HelloWorldAgent
+        jade.Boot.main(args);
+    }
 
-    /*protected*/ public void setup() {
+    protected void setup() {
         System.out.println("Hello World! My name is "+getLocalName());
 
         // Make this agent terminate
