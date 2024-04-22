@@ -1,0 +1,56 @@
+agent(ManagerAgent) {
+  beliefs {
+    available_tables : int(initial-value 5);  // Number of available tables
+    orders : list(Order);  // List of current orders
+  }
+  plans {
+    // Plan to handle user requests (e.g., reservation, order)
+    handle_user_request(Request message) {
+      when {
+        // Check request type based on message content
+        message == "Reserve table for X" 
+      }
+      then {
+        // Extract number of people from message
+        num_people = parseInt(substring(message, 19));
+        // Delegate task to reserve_table plan
+        reserve_table(num_people);
+      }
+      else if {
+        message.startsWith("Order ")
+        // Extract order details from message
+        order_details = substring(message, 6);
+        // Delegate task to create_order plan
+        create_order(order_details);
+      }
+    }
+    
+    // Plan to reserve a table
+    reserve_table(int num_people) {
+      when {
+        available_tables >= num_people
+      }
+      then {
+        // Reduce available tables and send confirmation
+        available_tables -= num_people;
+        sendMessage("Reservation confirmed for " + num_people + " people.");
+      }
+      else {
+        sendMessage("Sorry, no tables available for " + num_people + " people.");
+      }
+    }
+    
+    // Plan to create an order
+    create_order(String order_details) {
+      // Implement logic to create order based on details (e.g., send to ChefAgent)
+      System.out.println("Received order: " + order_details);
+      // Add order to list of current orders
+      orders.add(new Order(order_details));
+      sendMessage("Order received! We will prepare it shortly.");
+    }
+  }
+  goals {
+    // Goal to receive user requests
+    receive_user_request;
+  }
+}

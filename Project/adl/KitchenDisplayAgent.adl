@@ -1,0 +1,22 @@
+agent(KitchenDisplayAgent) {
+  beliefs {
+    orders_to_display : list(String);  // List of order details for display
+  }
+  plans {
+    // Plan to update display with new order
+    update_display(String order_details) {
+      when {
+        true  // Always update when receiving an order
+      }
+      then {
+        orders_to_display.add(order_details);
+        // Simulate updating the display (replace with actual display logic)
+        System.out.println("Kitchen Display: New order - " + order_details);
+      }
+    }
+  }
+  goals {
+    // Goal to continuously listen for new orders to display
+    listen_for_orders;
+  }
+}

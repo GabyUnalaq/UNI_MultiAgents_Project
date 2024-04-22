@@ -1,0 +1,26 @@
+agent(ChefAgent) {
+  beliefs {
+    current_orders : list(Order);  // List of orders to be prepared
+  }
+  plans {
+    // Plan to process a new order
+    process_order(Order order) {
+      when {
+        current_orders.contains(order)
+      }
+      then {
+        // Simulate order preparation
+        System.out.println("Chef is preparing: " + order.getDetails());
+        // Order is assumed to be prepared after some time
+        after(10s) {
+          current_orders.remove(order);
+          sendMessage("ManagerAgent", "Order ready: " + order.getDetails());
+        }
+      }
+    }
+  }
+  goals {
+    // Goal to continuously check for new orders
+    check_for_orders;
+  }
+}

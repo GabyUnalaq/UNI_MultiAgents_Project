@@ -1,0 +1,22 @@
+agent(TableAgent) {
+  beliefs {
+    table_number : int;  // Unique table number (initial value assigned elsewhere)
+    is_occupied : boolean(initial-value false);  // Indicates if table is occupied
+  }
+  plans {
+    // Plan to inform ManagerAgent when table becomes occupied
+    inform_table_occupied {
+      when {
+        is_occupied == true
+      }
+      then {
+        sendMessage("ManagerAgent", "Table " + table_number + " is occupied.");
+      }
+    }
+  }
+  goals {
+    // Goal to monitor table occupancy
+    monitor_occupancy;
+  }
+}
+
