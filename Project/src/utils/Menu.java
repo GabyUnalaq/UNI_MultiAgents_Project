@@ -54,6 +54,11 @@ public class Menu {
         }
     };
 
+    /**
+     * Function checks if the food item exists in the menu
+     * @param item String representing the food item
+     * @return True if the item exists in the Menu
+     */
     public static boolean checkItem(String item) {
         for (FoodItem fi : Menu.list) {
             if (Objects.equals(fi.name, item))
@@ -62,6 +67,11 @@ public class Menu {
         return false;
     }
 
+    /**
+     * Getter for cost (Money needed to produce the item)
+     * @param item String representing the food item
+     * @return Integer representing the cost of the item
+     */
     public static int getCost(String item) {
         for (FoodItem fi : Menu.list) {
             if (Objects.equals(fi.name, item))
@@ -70,6 +80,11 @@ public class Menu {
         return 0;
     }
 
+    /**
+     * Getter for profit (Amount paid by the client)
+     * @param item String representing the food item
+     * @return Integer representing the profit of the item
+     */
     public static int getProfit(String item) {
         for (FoodItem fi : Menu.list) {
             if (Objects.equals(fi.name, item))

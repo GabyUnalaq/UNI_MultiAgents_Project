@@ -8,7 +8,7 @@ import jade.lang.acl.ACLMessage;
 
 public abstract class RestaurantAgent extends Agent {
     String agent_name;
-    boolean debug = true;
+    boolean debug = false;
 
     public void init(String agent_name) {
         this.agent_name = agent_name;
@@ -21,9 +21,14 @@ public abstract class RestaurantAgent extends Agent {
 
                 if (msg != null) {
                     String content = msg.getContent();
-                    System.out.println(agent_name + ": got message " + content);
 
-                    interpretMessage(content);
+                    logInfo("got message " + content);
+                    try {
+                        interpretMessage(content);
+                    }
+                    catch (Exception e) {
+                        logError("Unexpected error occurred while interpreting message: " + e.toString());
+                    }
                 } else {
                     block();
                 }
@@ -42,11 +47,11 @@ public abstract class RestaurantAgent extends Agent {
 
     protected void logInfo(String info) {
         if (debug)
-            System.out.printf("[INFO]: %s: %s\n", agent_name, info);
+            System.out.printf("[INFO]: %s: %s%n", agent_name, info);
     }
 
     protected void logError(String err) {
-        System.out.printf("[ERROR]: %s: %s\n", agent_name, err);
+        System.out.printf("[ERROR]: %s: %s%n", agent_name, err);
     }
 
     protected void sleep(int milis) {

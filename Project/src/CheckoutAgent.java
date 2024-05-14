@@ -29,7 +29,7 @@ public class CheckoutAgent extends RestaurantAgent {
         }
         else if (msg.startsWith("Close")) {
             System.out.println("Restaurant is closed!");
-            System.out.printf("Total profit made today: %d\n", profit - cost);
+            System.out.printf("Total profit made today: %d%n", profit - cost);
         }
         else {
             logError("Invalid message received.");

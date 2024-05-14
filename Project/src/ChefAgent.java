@@ -47,17 +47,12 @@ public class ChefAgent extends RestaurantAgent {
         /* Messages:
             - x-y;z : x - table num, y,z - food items
          */
-        try {
-            String[] split = msg.split("-");
-            current_table_order = Integer.parseInt(split[0]);
-            food_items_to_do.addAll(Arrays.asList(split[1].split(";")));
-            this.doWake();
+        String[] split = msg.split("-");
+        current_table_order = Integer.parseInt(split[0]);
+        food_items_to_do.addAll(Arrays.asList(split[1].split(";")));
+        this.doWake();
 
-            logInfo("Added order: " + msg);
-
-        } catch (Exception e){
-            logError("Invalid message received: " + e.toString());
-        }
+        logInfo("Added order: " + msg);
     }
 
     private void execute_plan(String food_item_to_make) {
