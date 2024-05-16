@@ -8,7 +8,7 @@ import jade.lang.acl.ACLMessage;
 
 public abstract class RestaurantAgent extends Agent {
     String agent_name;
-    boolean debug = false;
+    boolean debug = true;
 
     public void init(String agent_name) {
         this.agent_name = agent_name;

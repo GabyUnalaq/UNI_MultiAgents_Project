@@ -14,7 +14,7 @@ import utils.RestaurantAgent;
  *  - Status x - x: table num
  *  - Close
  *
- * @author  Dumitru, Radu.M, Patrania, Tomuta
+ * @author Dumitru, Radu.M, Patrania, Tomuta
  */
 public class ManagerAgent extends RestaurantAgent {
     @Override

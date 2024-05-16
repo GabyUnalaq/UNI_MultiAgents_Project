@@ -2,12 +2,12 @@ import java.util.*;
 import jade.core.behaviours.CyclicBehaviour;
 
 import utils.RestaurantAgent;
-import utils.Menu;
+import utils.Menu; // Belief
 
 public class ChefAgent extends RestaurantAgent {
-    int current_table_order;
-    LinkedList<String> food_items_to_do = new LinkedList<>();
-    LinkedList<String> food_items_done = new LinkedList<>();
+    // Desires
+    LinkedList<String> desires = new LinkedList<>();
+
     @Override
     protected void setup() {
         init("Chef");
@@ -15,26 +15,24 @@ public class ChefAgent extends RestaurantAgent {
         addBehaviour(new CyclicBehaviour() {
             @Override
             public void action() {
-                if (!food_items_to_do.isEmpty()) {
-                    // Get desire
-                    String food_item_to_make = food_items_to_do.getFirst();
+                if (!desires.isEmpty()) {
+                    String current_desire = desires.getFirst();
+                    logInfo("Current desire: " + current_desire);
 
-                    // Check if valid
-                    if (!Menu.checkItem(food_item_to_make)) {
-                        food_items_to_do.removeFirst();
-                        logError("Invalid food item: " + food_item_to_make);
+                    // Choose action
+                    String aux;
+                    if (current_desire.startsWith("cook")) {
+                        // get value
+                        aux = current_desire.split(":")[1];
+                        if (cookFood(aux))
+                            desires.removeFirst();
                     }
-                    else {
-                        execute_plan(food_item_to_make);
-
-                        food_items_done.add(food_item_to_make);
-                        food_items_to_do.removeFirst();
-                        logInfo("Made " + food_item_to_make);
+                    else if (current_desire.startsWith("finish_order")) {
+                        // get value
+                        aux = current_desire.split(":")[1];
+                        if (finishOrder(Integer.parseInt(aux)))
+                            desires.removeFirst();
                     }
-                }
-                else if (!food_items_done.isEmpty()) {
-                    sendMessage("Waiter", String.format("Order complete %d", current_table_order));
-                    food_items_done.clear();
                 }
                 else {
                     block();
@@ -48,15 +46,32 @@ public class ChefAgent extends RestaurantAgent {
             - x-y;z : x - table num, y,z - food items
          */
         String[] split = msg.split("-");
-        current_table_order = Integer.parseInt(split[0]);
-        food_items_to_do.addAll(Arrays.asList(split[1].split(";")));
+        int table_num = Integer.parseInt(split[0]);
+        for (String food_item : split[1].split(";")) {
+            desires.add(String.format("cook:%s", food_item));
+        }
+        desires.addLast(String.format("finish_order:%d", table_num));
         this.doWake();
-
-        logInfo("Added order: " + msg);
     }
 
-    private void execute_plan(String food_item_to_make) {
-        // Simulate making food
-        sleep(1000);
+    // Plan to cook
+    private boolean cookFood(String food_item) {
+        logInfo("Executing plan: cook " + food_item);
+        // Check if valid
+        if (!Menu.checkItem(food_item)) {
+            logError("Invalid food item: " + food_item);
+        }
+        else {
+            // Simulate making food
+            sleep(1000);
+        }
+        return true;
+    }
+
+    // Plan to finish the current order
+    private boolean finishOrder(int table_num) {
+        logInfo("Executing plan: finish order for table " + table_num);
+        sendMessage("Waiter", String.format("Order complete %d", table_num));
+        return true;
     }
 }

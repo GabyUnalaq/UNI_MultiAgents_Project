@@ -3,6 +3,13 @@ package utils;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The FoodItem class implements a simple food item
+ * that exists on the menu. It has also a production cost
+ * and a price for the customer.
+ *
+ * @author Dumitru, Radu.M, Patrania, Tomuta
+ */
 class FoodItem {
     String name; // Name of dish
     int profit; // Sell price
@@ -15,7 +22,17 @@ class FoodItem {
     }
 }
 
+/**
+ * The Menu class is class destined to store
+ * the menu of the restaurant. It is static, and
+ * it must be written before runtime.
+ *
+ * @author Dumitru, Radu.M, Patrania, Tomuta
+ */
 public class Menu {
+    /**
+     * list contains the food items present in the menu.
+     */
     static ArrayList<FoodItem> list = new ArrayList<>() {
         {
             // Aperitive
