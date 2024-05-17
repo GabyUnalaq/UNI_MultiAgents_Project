@@ -3,6 +3,7 @@ import jade.core.behaviours.CyclicBehaviour;
 
 import utils.RestaurantAgent;
 
+
 /**
  * The WaiterAgent implement a BDI agent with the
  * purpose of moving around the restaurant. This
@@ -67,6 +68,10 @@ public class WaiterAgent extends RestaurantAgent {
                         if (cleanTable(Integer.parseInt(aux)))
                             desires.removeFirst();
                     }
+                    else {
+                        logError("Desire unknown: " + current_desire);
+                        desires.removeFirst();
+                    }
 
                     last_desire = current_desire;
                 }
@@ -84,20 +89,13 @@ public class WaiterAgent extends RestaurantAgent {
             - Clean x: x - table num
          */
         if (msg.startsWith("Send order")) {
-            // sendMessage("Chef", msg.substring(11));
             desires.add(String.format("order:%s", msg.substring(11)));
         }
         else if (msg.startsWith("Order complete")) {
-            int table_num = Integer.parseInt(msg.substring(15));
-            //sendMessage("Table", String.format("Deliver %d", table_num));
-            //System.out.printf("Food is delivered to table %d.%n", table_num);
-            desires.add(String.format("deliver:%d", table_num));
+            desires.add(String.format("deliver:%s", msg.substring(15)));
         }
         else if (msg.startsWith("Clean")) {
-            int table_num = Integer.parseInt(msg.substring(6));
-            //sendMessage("Table", msg);
-            //System.out.printf("Cleaning table %d.%n", table_num);
-            desires.add(String.format("clean:%d", table_num));
+            desires.add(String.format("clean:%s", msg.substring(6)));
         }
         else {
             logError("Invalid message received.");
@@ -159,10 +157,11 @@ public class WaiterAgent extends RestaurantAgent {
         }
         else {
             System.out.printf("Cleaning table %d.%n", table_num);
-            sendMessage("Table", String.format("Clean %d", table_num));
 
             // Simulate cleaning
             sleep(500);
+
+            sendMessage("Table", String.format("Clean %d", table_num));
 
             return true;
         }

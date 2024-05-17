@@ -4,6 +4,13 @@ import jade.core.behaviours.CyclicBehaviour;
 import utils.RestaurantAgent;
 import utils.Menu; // Belief
 
+
+/**
+ * The ChefAgent implement a BDI agent with the
+ * purpose of cooking the food it gets.
+ *
+ * @author Dumitru, Radu.M, Patrania, Tomuta
+ */
 public class ChefAgent extends RestaurantAgent {
     // Desires
     LinkedList<String> desires = new LinkedList<>();
@@ -32,6 +39,10 @@ public class ChefAgent extends RestaurantAgent {
                         aux = current_desire.split(":")[1];
                         if (finishOrder(Integer.parseInt(aux)))
                             desires.removeFirst();
+                    }
+                    else {
+                        logError("Desire unknown: " + current_desire);
+                        desires.removeFirst();
                     }
                 }
                 else {

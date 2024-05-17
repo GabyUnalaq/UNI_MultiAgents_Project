@@ -4,6 +4,13 @@ import jade.core.behaviours.CyclicBehaviour;
 import utils.RestaurantAgent;
 
 
+/**
+ * The CheckoutAgent implement a BDI agent with the
+ * purpose of keeping track of the finances. It
+ * notes the cost of the products and the profit.
+ *
+ * @author Dumitru, Radu.M, Patrania, Tomuta
+ */
 public class CheckoutAgent extends RestaurantAgent {
     // Beliefs
     int cost, profit;
@@ -52,6 +59,10 @@ public class CheckoutAgent extends RestaurantAgent {
                         if (closeRestaurant())
                             desires.removeFirst();
                     }
+                    else {
+                        logError("Desire unknown: " + current_desire);
+                        desires.removeFirst();
+                    }
 
                     last_desire = current_desire;
                 }
@@ -69,16 +80,12 @@ public class CheckoutAgent extends RestaurantAgent {
             - Close
          */
         if (msg.startsWith("Add to cost")) {
-            //cost += Integer.parseInt(msg.substring(12));
             desires.add(String.format("add_cost:%s", msg.substring(12)));
         }
         else if (msg.startsWith("Add to profit")) {
-            //profit += Integer.parseInt(msg.substring(14));
             desires.add(String.format("add_profit:%s", msg.substring(14)));
         }
         else if (msg.startsWith("Close")) {
-            //System.out.println("Restaurant is closed!");
-            //System.out.printf("Total profit made today: %d%n", profit - cost);
             desires.add("close");
         }
         else {

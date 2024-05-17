@@ -6,9 +6,18 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
+
+/**
+ * The RestaurantAgent is an abstract agent that
+ * provides an easy-to-use interface between the
+ * developed agents and the jade Agent.
+ *
+ * @author Dumitru, Radu.M, Patrania, Tomuta
+ */
 public abstract class RestaurantAgent extends Agent {
-    String agent_name;
-    boolean debug = true;
+    String agent_name; // Each agent's unique identifier
+    boolean debug = true; // Show all info on the console
+    boolean isolate_agent = false; // Used to disable communication - for testing purposes
 
     public void init(String agent_name) {
         this.agent_name = agent_name;
@@ -39,6 +48,10 @@ public abstract class RestaurantAgent extends Agent {
     protected abstract void interpretMessage(String msg);
 
     protected void sendMessage(String target, String msg) {
+        if (isolate_agent) {
+            System.out.println("Sending msg \"" + msg + "\" to " + target);
+            return;
+        }
         ACLMessage msgToSend = new ACLMessage(ACLMessage.REQUEST);
         msgToSend.addReceiver(getAID(target));
         msgToSend.setContent(msg);
