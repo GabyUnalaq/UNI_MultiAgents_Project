@@ -144,7 +144,7 @@ public class TableAgent extends RestaurantAgent {
             desires.add("pay:" + msg.substring(4));
         }
         else if (msg.startsWith("Clean")) {
-            desires.add("pay:" + msg.substring(6));
+            desires.add("clean:" + msg.substring(6));
         }
         else if (msg.startsWith("Status")) {
             desires.add("status:" + msg.substring(7));
@@ -325,6 +325,7 @@ public class TableAgent extends RestaurantAgent {
         else {
             // Send the profit of the order to the Checkout
             sendMessage("Checkout", String.format("Add to profit %d", tables.get(table_num).getProfit()));
+            sendMessage("Waiter", "Clean " + table_num);
 
             tables.get(table_num).advanceStatus(); // eating -> cleaning
             logInfo(String.format("Table %d has finished eating and has payed.", table_num));

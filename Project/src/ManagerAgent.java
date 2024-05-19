@@ -1,4 +1,7 @@
+import jade.core.behaviours.CyclicBehaviour;
 import utils.RestaurantAgent;
+
+import java.util.LinkedList;
 
 /**
  * The ManagerAgent implement a BDI agent with the
@@ -17,9 +20,48 @@ import utils.RestaurantAgent;
  * @author Dumitru, Radu.M, Patrania, Tomuta
  */
 public class ManagerAgent extends RestaurantAgent {
+    // Beliefs
+    String table_agent_name = "Table";
+    String checkout_agent_name = "Checkout";
+
+    // Desires
+    LinkedList<String> desires = new LinkedList<>();
+
     @Override
     protected void setup() {
         init("Manager");
+
+        addBehaviour(new CyclicBehaviour() {
+            @Override
+            public void action() {
+                if (!desires.isEmpty()) {
+                    String current_desire = desires.getFirst();
+                    logInfo("Current desire: " + current_desire);
+
+                    // Choose action
+                    String aux;
+                    if (current_desire.startsWith("send_table")) {
+                        // get content
+                        aux = current_desire.split(":")[1];
+                        if (sendTable(aux))
+                            desires.removeFirst();
+                    }
+                    else if(current_desire.startsWith("send_checkout")) {
+                        // get content
+                        aux = current_desire.split(":")[1];
+                        if (sendCheckout(aux))
+                            desires.removeFirst();
+                    }
+                    else {
+                        logError("Desire unknown: " + current_desire);
+                        desires.removeFirst();
+                    }
+                }
+                else {
+                    block();
+                }
+            }
+        });
     }
 
     protected void interpretMessage(String msg) {
@@ -38,19 +80,12 @@ public class ManagerAgent extends RestaurantAgent {
             - List order x: x - table num
          */
         if (msg.startsWith("Reserve") || msg.startsWith("Order") || msg.startsWith("Send order") ||
-                msg.startsWith("Status") || msg.startsWith("Remove order") ||
+                msg.startsWith("Status") || msg.startsWith("Remove order") || msg.startsWith("Pay") ||
                 msg.startsWith("List order") || msg.equals("Close")) {
-            sendMessage("Table", msg);
-        }
-        else if (msg.startsWith("Pay")) {
-            int table_num = Integer.parseInt(msg.substring(4));
-
-            sendMessage("Table", msg);
-            sendMessage("Waiter", String.format("Clean %d", table_num));
+            desires.add("send_table:" + msg);
         }
         else if (msg.equals("Free")) {
-            sendMessage("Checkout", "Close");
-            // Closing the restaurant for the day
+            desires.add("send_checkout:Close");
         }
         else if (msg.equals("Not free")) {
             System.out.println("Could not close, the restaurant is not yet empty.");
@@ -65,5 +100,19 @@ public class ManagerAgent extends RestaurantAgent {
         else {
             logError("Invalid message received.");
         }
+    }
+
+    // Plan to send to table agent
+    public boolean sendTable(String content) {
+        logInfo("Executing plan: send table: " + content);
+        sendMessage(table_agent_name, content);
+        return true;
+    }
+
+    // Plan to send to checkout agent
+    public boolean sendCheckout(String content) {
+        logInfo("Executing plan: send checkout: " + content);
+        sendMessage(checkout_agent_name, content);
+        return true;
     }
 }
