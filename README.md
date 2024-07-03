@@ -1,13 +1,18 @@
-# SMA project (MultiAgent Systems)
-This project implements a system that takes messages from a graphical interface using 5 BDI agents. It is implemented using Jade (Java).
+Theme: Smart Restaurant
 
-# Team
- - Dumitru Diana-Maria
- - Patrania Bogdan
- - Radu Marina
- - Tomuta Gabriel
+Agents:
+ - ManagerAgent: Manages the overall restaurant operations, assigns tasks to other agents, and handles user requests. (Receives messages from the user)
+ - ChefAgent: Receives orders from the ManagerAgent, prepares food, and informs the ManagerAgent when finished.
+ - WaiterAgent: Receives orders from the ManagerAgent, delivers food to customers, and takes new orders from the user.
+ - TableAgent: Represents a table in the restaurant, keeps track of its occupancy and orders.
+ - KitchenDisplayAgent: Displays the current food orders for the ChefAgent.
 
-# TODO
-1. Gasim tema pentru proiect (de [aici](https://jade.tilab.com/documentation/examples/)?)
-2. Gasim titlu pentru proiect.
-3. Facem proiectul din timp.
+User Interaction: The user can interact with the ManagerAgent through text messages (simulated) to:
+ - Make a reservation for a table.
+ - Order food from the menu.
+ 
+ BDI
+
+B - Belief    - Current information (status / position etc.)
+D - Desire    - The goal that needs to be achieved (get to X / Sleep etc.)
+I - Intention - The action that is being taken in order to fulfil the desire (walk to X / walk to bed, lay down etc.)

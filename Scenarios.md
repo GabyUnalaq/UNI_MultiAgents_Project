@@ -1,0 +1,97 @@
+Scenariul 1: Rezervare
+User - Manager: "Reserve"
+Manager -> Table: "reserve"
+Table -> Manager: "Table 1"
+Manager -> User: You can take table <> / Full
+
+Scenariul 2: Comandare mancare
+User - Manager: "Order 1,Pasta"
+Manager -> Table: "Order 1,Pasta"
+Table: remembers order and sum of money
+User - Manager: "Order 1,Sarmale"
+Manager -> Table: "Order 1,Sarmale"
+User -> Manager: "Remove order 1,Pasta"
+Manager -> Table: "Remove order 1,Pasta" - removes item
+User -> Manager: "List order 1"
+Manager -> Table: "List order 1" - prints order and cost
+Table: remembers order and sum of money
+User - Manager: "Send order 1"
+Manager -> Table: "Send order 1"
+Table -> Waiter: "Send order 1-Pasta;Sarmale"
+Table -> Checkout: "Add to cost x" - for each
+Waiter -> Chef: "1-Pasta;Sarmale"
+Chef: prepares Pasta
+Chef: prepares Sarmale
+Chef -> Waiter: "Order complete 1"
+Waiter -> Table: "Deliver 1"
+Waiter: Delivers food to table
+Table remembers order and sum of money
+
+Scenariul 3: Plata
+User - Manager: "Pay 1"
+Manager -> Table: "Pay 1"
+Table -> Checkout: "Add to profit x"
+Manager -> Waiter: "Clean 1"
+Waiter: Cleans table
+Waiter -> Table: "Clean 1" - table -> empty
+
+Scenariul 4: Close restaurant
+User - Manager: "Close"
+Manager -> Table: "Close"
+Table writes the tables that are not empty
+Table -> Manager: "Free" / "Not free"
+Manager -> Checkout: "Close"
+Checkout writes profit and cost!
+
+Scenariul 5: Status
+User - Manager: "Status 1"
+Manager -> Table: "Status 1"
+Table writes status of table.
+
+=============================================================
+Commands:
+	Manager:
+	 - Reserve: Reserves one table
+	 - Order x,y: x - table num, y - command
+	 - Send order x: x - table num
+	 - Pay x: x - table num
+	 - Close: Closes restaurant
+	 - Free: Restaurant is empty
+	 - Not free: Restaurant is empty
+	 - Table x: x - Number of reserved table.
+	 - Full - All tables are full
+	 - Status x: x - table num
+	 - Remove order x,y: x - table num, y - item
+	 - List order x: x - table num
+	
+	Table:
+	 - Reserve: Check if there are tables empty
+	 - Order x,y: x - table num, y - item
+	 - Remove order x,y: x - table num, y - item
+	 - List order x: x - table num
+	 - Send order x: x - table num
+	 - Deliver x: x - table num
+	 - Pay x: x - table num
+	 - Clean x: x - table num
+	 - Close: Checks if the restaurant can be closed.
+	 - Status x: x - table num
+	 
+	Chef:
+	 - x-y;z : x - table num, y,z - food items
+	 
+	Waiter:
+	 - Send order x-y;z : xyz same, Send it to the chef
+	 - Order complete x: x - table num
+	 - Clean x: x - table num
+	 
+	Checkout:
+	 - Add to cost x: x - sum of money
+	 - Add to profit x: x - sum of money
+	 - Close
+	 
+=============================================================
+Chef - done
+Checkout - done
+Waiter - done
+Table - done
+Manager - done
