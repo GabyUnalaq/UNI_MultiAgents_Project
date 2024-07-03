@@ -1,5 +1,0 @@
-BDI
-
-B - Belief    - Current information (status / position etc.)
-D - Desire    - The goal that needs to be achieved (get to X / Sleep etc.)
-I - Intention - The action that is being taken in order to fulfil the desire (walk to X / walk to bed, lay down etc.)
